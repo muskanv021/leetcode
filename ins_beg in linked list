@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node in the linked list
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+typedef struct Node node;
+
+// Initialize head and other variables
+node *head = NULL;
+node *ptr;
+int count = 0, i;
+
+// Function to insert a node at the beginning of the linked list
+void ins_beg(int x)
+{
+    ptr = (node *)malloc(sizeof(node)); // Allocate memory for the new node
+    ptr->data = x; // Set the data of the new node
+    if (head == NULL)
+    {
+        ptr->next = NULL; // If the list is empty, set next to NULL
+    }
+    else
+    {
+        ptr->next = head; // Otherwise, point to the current head
+    }
+    head = ptr; // Update head to the new node
+    count++;
+}
+
+// Function to traverse and print the linked list
+void traverse()
+{
+    if (head == NULL)
+    {
+        printf("\nList is empty!!!\n");
+    }
+    else
+    {
+        ptr = head; // Start from the head
+        printf("\nElements: ");
+        while (ptr != NULL)
+        {
+            printf("%d ", ptr->data); // Print the data of the current node
+            ptr = ptr->next; // Move to the next node
+        }
+        printf("\n");
+    }
+}
+
+// Main function
+int main()
+{
+    traverse(); // Traverse the list (should print "List is empty!!!")
+    ins_beg(68); // Insert 68 at the beginning
+    ins_beg(76); // Insert 76 at the beginning
+    traverse(); // Traverse the list again (should print "76 68")
+    return 0;
+}
