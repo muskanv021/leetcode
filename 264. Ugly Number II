@@ -1,0 +1,36 @@
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    // Function to find the nth ugly number.
+    int nthUglyNumber(int n) {
+        // Create a dynamic programming table to store ugly numbers.
+        std::vector<int> dp(n);
+      
+        // The first ugly number is 1.
+        dp[0] = 1;
+      
+        // Initialize pointers for multiples of 2, 3, and 5.
+        int pointer2 = 0, pointer3 = 0, pointer5 = 0;
+      
+        // Populate the table with the next ugly numbers.
+        for (int i = 1; i < n; ++i) {
+            // Find the next multiples for 2, 3 and 5.
+            int next2 = dp[pointer2] * 2;
+            int next3 = dp[pointer3] * 3;
+            int next5 = dp[pointer5] * 5;
+          
+            // Select the minimum of these multiples as the next ugly number.
+            dp[i] = std::min(next2, std::min(next3, next5));
+          
+            // Increase the respective pointer if it was used.
+            if (dp[i] == next2) ++pointer2;
+            if (dp[i] == next3) ++pointer3;
+            if (dp[i] == next5) ++pointer5;
+        }
+      
+        // Return the nth ugly number.
+        return dp[n - 1];
+    }
+};
