@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int strangePrinter(string s) {
+        int length = s.size();
+        // Create a 2D array to store the minimum number of turns needed
+        // Initialize all entries with a high value (0x3f3f3f3f) to signify uncalculated/infinity
+        int dp[length][length];
+        memset(dp, 0x3f, sizeof(dp));
+
+        // Loop backwards through the string (start from the end)
+        for (int start = length - 1; start >= 0; --start) {
+            // Always takes one turn to print a single character
+            dp[start][start] = 1;
+
+            // Iterate over the substring from the current start to the end of the string
+            for (int end = start + 1; end < length; ++end) {
+                // If the characters are the same, it takes the same number of turns
+                // as it took to print the substring without the current character
+                // because it can be printed in the same turn as the last character
+                if (s[start] == s[end]) {
+                    dp[start][end] = dp[start][end - 1];
+                } else {
+                    // If characters are different, find the minimum number of turns
+                    // needed by splitting the substring into two parts at every possible position
+                    for (int split = start; split < end; ++split) {
+                        dp[start][end] = min(dp[start][end], dp[start][split] + dp[split + 1][end]);
+                    }
+                }
+            }
+        }
+
+        // The answer is the minimum number of turns to print the whole string
+        // which is stored in dp[0][length - 1]
+        return dp[0][length - 1];
+    }
+};
+Ti
